@@ -29,22 +29,22 @@ class EmployeesController extends Controller
     }
 
     public function store(Request $request){
-        if(!$request->has('nama', 'nim', 'jurusan', 'email')){
+        if(!$request->has('name', 'gender', 'phone', 'address', 'email', 'status', 'hired_on')){
           $data = [
               'message' => 'Data Gagal Di tambahkan',
               
           ];
           return response()->json($data,404);
       
-      } else {
+        } else {
           $input =[
-              'nama pegawai' => $request->name,
-              'jenis kelamin pegawai'=> $request->gender,
-              'no hp pegawai'=> $request->phone,
-              'alamat pegawai'=> $request->address,
-              'email pegawai' => $request->email,
-              'status pegawai' => $request->status,
-              'tanggal masuk kerja' => $request->hired_on,
+              'name' => $request->name,
+              'gender'=> $request->gender,
+              'phone'=> $request->phone,
+              'address'=> $request->address,
+              'email' => $request->email,
+              'status' => $request->status,
+              'hired_on' => $request->hired_on,
               
           ];
           $employees = Employees::create($input);
@@ -64,13 +64,13 @@ class EmployeesController extends Controller
         if ($employees) {
             //simpan perubahan
             $employees->update([
-             'nama pegawai' => $request->name ?? $employees->name,
-                 'jenis kelamin pegawai'=> $request->gender ?? $employees->gender,
-                 'no hp pegawai'=> $request->phone ?? $employees->phone,
-                 'alamat pegawai'=> $request->address ?? $employees->address,
-                 'email pegawai' => $request->email ?? $employees->email,
-                 'status pegawai' => $request->status ?? $employees->status,
-                 'tanggal masuk kerja' => $request->hired_on ?? $employees->hired_on,
+             'name' => $request->name ?? $employees->name,
+                 'gender'=> $request->gender ?? $employees->gender,
+                 'phone'=> $request->phone ?? $employees->phone,
+                 'address'=> $request->address ?? $employees->address,
+                 'email' => $request->email ?? $employees->email,
+                 'status' => $request->status ?? $employees->status,
+                 'hired_on' => $request->hired_on ?? $employees->hired_on,
                  
              
             ]);
@@ -121,4 +121,22 @@ class EmployeesController extends Controller
         
 
     }
+    public function show($id){
+        $employees = Employees::find($id);
+        if ($employees){
+            $data= [
+             'message' => 'Menampilkan detail Data',
+             'data' => $employees
+         ];
+         return response()->json($data, 200);
+ 
+         }else{
+             $data = [
+                 'message' => 'Data tidak ditemukan',
+                 
+             ];
+             return response()->json($data, 404);
+         }
+     }
+ 
 }
