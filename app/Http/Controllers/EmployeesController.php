@@ -138,5 +138,57 @@ class EmployeesController extends Controller
              return response()->json($data, 404);
          }
      }
+
+     public function search ( $name){
+        $employees =  Employees::find('name','like','%'.$name.'%')->get();
+        
+        if ($employees){
+            $data= [
+             'message' => 'Menampilkan detail Data',
+             'data' => $employees
+         ];
+         return response()->json($data, 200);
  
+         }else{
+             $data = [
+                 'message' => 'Data tidak ditemukan',
+                 
+             ];
+             return response()->json($data, 404);
+         }
+ 
+}
+
+public function active ( ){
+    $employees =  Employees::find('name','active')->get();
+
+        $data= [
+         'message' => 'Menampilkan detail Data',
+         'data' => $employees
+     ];
+     return response()->json($data, 200);
+
+}
+
+public function inactive ( ){
+    $employees =  Employees::find('name','inactive')->get();
+
+        $data= [
+         'message' => 'Menampilkan detail Data',
+         'data' => $employees
+     ];
+     return response()->json($data, 200);
+
+}
+
+public function terminated ( ){
+    $employees =  Employees::find('name','terminated')->get();
+
+        $data= [
+         'message' => 'Menampilkan detail Data',
+         'data' => $employees
+     ];
+     return response()->json($data, 200);
+
+}
 }
